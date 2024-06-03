@@ -1,0 +1,7 @@
+<app-header></app-header>
+<section class="main-content">
+  <router-outlet></router-outlet>
+</section>
+<div class="footer-container" *ngIf="!onChat()">
+  <app-footer></app-footer>
+</div>

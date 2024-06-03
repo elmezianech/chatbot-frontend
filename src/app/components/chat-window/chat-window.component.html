@@ -1,0 +1,15 @@
+<div class="chat-window border rounded p-3">
+    <div class="chat-header text-center font-weight-bold mb-3">ChatBot</div>
+    <div class="chat-messages mb-3 p-2 border" style="height: 450px; overflow-y: auto;">
+      <div *ngFor="let message of messages">
+        <div [ngClass]="{'user-message text-right': message.user, 'bot-message text-left': !message.user}">
+          {{ message.text }}
+        </div>
+      </div>
+    </div>
+    <div class="chat-input d-flex">
+      <input type="text" class="form-control mr-2" [(ngModel)]="userInput" (keydown.enter)="sendMessage()" placeholder="Type a message...">
+      <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+  

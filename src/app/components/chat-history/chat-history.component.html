@@ -1,0 +1,8 @@
+<div class="chat-history border rounded p-3 h-100">
+  <div class="chat-history-header text-center font-weight-bold mb-3">Chat History</div>
+  <ul class="list-unstyled">
+    <li *ngFor="let session of chatSessions" (click)="loadSession(session)" class="session-item p-2 mb-2 border rounded">
+      {{ session.name }}
+    </li>
+  </ul>
+</div>

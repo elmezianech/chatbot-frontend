@@ -1,0 +1,57 @@
+<section class="auth-section">
+    <div class="container">
+        <div class="row border border-1 p-5 g-3">
+            <div class="col-md-6 divider-right pb-3 pb-md-0">
+                <div class="form-card">
+                    <h3 class="text-center mb-4">Sign Up</h3>
+                    <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+                        <div class="form-group">
+                            <label for="firstName">Username</label>
+                            <input type="text" class="form-control" id="username" formControlName="username" placeholder="username">
+                            <div *ngIf="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched" class="text-danger">
+                                username is required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signUpEmail">Email</label>
+                            <input type="email" class="form-control" id="signUpEmail" formControlName="email" placeholder="Email">
+                            <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched" class="text-danger">
+                                Valid Email is required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signUpPassword">Password</label>
+                            <input type="password" class="form-control" id="signUpPassword" formControlName="password" placeholder="Password">
+                            <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched" class="text-danger">
+                                Password is required
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block my-3" [disabled]="signUpForm.invalid">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center mb-4">Log In</h3>
+                <div class="form-card">
+                    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" formControlName="email" placeholder="Email">
+                            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+                                Valid Email is required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" formControlName="password" placeholder="Password">
+                            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+                                Password is required
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block my-3" [disabled]="loginForm.invalid">Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

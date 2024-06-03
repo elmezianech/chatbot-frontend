@@ -1,0 +1,14 @@
+.auth-section{
+    padding: 120px 0;
+}
+  
+.divider-right {
+    border-right: 2px solid gray; /* Adjust the width and color as needed */
+}
+
+@media (max-width: 768px) { /* Bootstrap lg breakpoint */
+    .divider-right {
+        border-right: none;
+        border-bottom: 2px solid gray; /* Adjust the width and color as needed */
+    }
+}

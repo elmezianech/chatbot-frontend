@@ -1,0 +1,18 @@
+.chat-history {
+    width: 100%;
+    /*max-width: 300px;*/
+    margin: auto;
+  }
+  
+  .chat-history-header {
+    font-size: 1.25rem;
+  }
+  
+  .session-item {
+    cursor: pointer;
+  }
+  
+  .session-item:hover {
+    background-color: #f0f0f0;
+  }
+  

@@ -1,0 +1,25 @@
+.hero-section{
+    background-color: #041f37;
+    color: white;
+    padding: 30px 0;
+}
+
+.chat-button{
+    padding: 20px;
+    background-color: skyblue;
+    color: #041f37;
+    border: 2px solid black;
+    text-align: center;
+    text-decoration: none;
+    width: 30%;
+}
+
+.chat-button:hover{
+    background-color: white;
+    color: black;
+}
+
+.project-overview{
+    padding: 80px 0px;
+    background-color: var(--light-background);
+}

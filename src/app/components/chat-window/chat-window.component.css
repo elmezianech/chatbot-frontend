@@ -1,0 +1,26 @@
+.chat-window {
+  width: 100%;
+  /*max-width: 600px;*/
+  margin: auto;
+  height: 100%;
+}
+
+.chat-header {
+  font-size: 1.25rem;
+}
+
+.chat-messages {
+  background-color: #f8f9fa;
+}
+
+.user-message {
+  color: blue;
+}
+
+.bot-message {
+  color: green;
+}
+
+.chat-input input {
+  flex: 1;
+}
