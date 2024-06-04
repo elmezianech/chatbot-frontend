@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Session } from '../models/session.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,18 @@ export class HistoryService {
   private apiUrl = 'http://localhost:3000/api';
   private selectedSessionSubject: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
   public selectedSession$: Observable<Session | null> = this.selectedSessionSubject.asObservable();
+  public newChatSubject = new BehaviorSubject<boolean>(false); // Add this line
+  newChat$ = this.newChatSubject.asObservable(); // Add this line
+  private sessionListSubject: BehaviorSubject<Session[]> = new BehaviorSubject<Session[]>([]);
+  public sessionList$: Observable<Session[]> = this.sessionListSubject.asObservable();
+
 
   // Expose the active session as an observable
   getActiveSession$(): Observable<Session | null> {
     return this.selectedSession$;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   // Retrieve chat sessions for a user
   getUserSessions(userId: string): Observable<Session[]> {
@@ -40,5 +46,26 @@ export class HistoryService {
   // Set the selected session
   setSelectedSession(session: Session | null): void {
     this.selectedSessionSubject.next(session);
+  }
+
+  clearNewChat(): void { // Add this method
+    this.newChatSubject.next(false);
+  }
+
+  refreshSessionList(): void {
+    const userId = this.authService.getUserIdFromToken();
+    if (userId) {
+      this.getUserSessions(userId).subscribe(
+        sessions => {
+          this.sessionListSubject.next(sessions);
+          console.log('sessions from service: ', this.sessionListSubject)
+        },
+        error => {
+          console.error('Error loading chat sessions:', error);
+        }
+      );
+    } else {
+      console.error('User ID not found in JWT token');
+    }
   }
 }
