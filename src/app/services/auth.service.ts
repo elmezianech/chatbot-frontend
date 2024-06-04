@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-//import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:3000/api/auth'; // Replace with your actual API URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
   signUp(data: { firstName: string, lastName: string, email: string, password: string }): Observable<any> {
     const url = `${this.apiUrl}/signup`;
@@ -58,4 +58,13 @@ export class AuthService {
     // true or false
     return !this.jwtHelper.isTokenExpired(token);
   }*/
+
+  getUserIdFromToken(): string | null {
+    const token = localStorage.getItem('jwt_token'); // Assuming you store the token in local storage
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken?.id || null; // Assuming the user ID is stored in the 'id' field of the token
+    }
+    return null;
+  }
 }

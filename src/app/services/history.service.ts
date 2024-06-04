@@ -11,6 +11,11 @@ export class HistoryService {
   private selectedSessionSubject: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
   public selectedSession$: Observable<Session | null> = this.selectedSessionSubject.asObservable();
 
+  // Expose the active session as an observable
+  getActiveSession$(): Observable<Session | null> {
+    return this.selectedSession$;
+  }
+
   constructor(private http: HttpClient) { }
 
   // Retrieve chat sessions for a user
