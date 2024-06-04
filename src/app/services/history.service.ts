@@ -11,16 +11,10 @@ export class HistoryService {
   private apiUrl = 'http://localhost:3000/api';
   private selectedSessionSubject: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
   public selectedSession$: Observable<Session | null> = this.selectedSessionSubject.asObservable();
-  public newChatSubject = new BehaviorSubject<boolean>(false); // Add this line
-  newChat$ = this.newChatSubject.asObservable(); // Add this line
+  public newChatSubject = new BehaviorSubject<boolean>(false); 
+  newChat$ = this.newChatSubject.asObservable(); 
   private sessionListSubject: BehaviorSubject<Session[]> = new BehaviorSubject<Session[]>([]);
   public sessionList$: Observable<Session[]> = this.sessionListSubject.asObservable();
-
-
-  // Expose the active session as an observable
-  getActiveSession$(): Observable<Session | null> {
-    return this.selectedSession$;
-  }
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -37,7 +31,7 @@ export class HistoryService {
   }
 
   addMessageToSession(sessionId: string, message: string, messageType: 'user' | 'bot'): Observable<Session> {
-    console.log('from service', sessionId, message, messageType)
+    console.log('from service', sessionId, message, messageType);
     const url = `${this.apiUrl}/sessions/${sessionId}/messages`;
     const body = { content: message, type: messageType };
     return this.http.post<Session>(url, body);
@@ -48,7 +42,7 @@ export class HistoryService {
     this.selectedSessionSubject.next(session);
   }
 
-  clearNewChat(): void { // Add this method
+  clearNewChat(): void {
     this.newChatSubject.next(false);
   }
 
@@ -58,7 +52,7 @@ export class HistoryService {
       this.getUserSessions(userId).subscribe(
         sessions => {
           this.sessionListSubject.next(sessions);
-          console.log('sessions from service: ', this.sessionListSubject)
+          console.log('sessions from service: ', this.sessionListSubject);
         },
         error => {
           console.error('Error loading chat sessions:', error);
@@ -67,5 +61,9 @@ export class HistoryService {
     } else {
       console.error('User ID not found in JWT token');
     }
+  }
+
+  notifySessionListChange(): void {
+    this.refreshSessionList();
   }
 }
