@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ChatService {
-  private chatSessions: any[] = [];
-  private currentSession: any = { name: 'Current Session', messages: [] };
+  //private chatSessions: any[] = [];
+  //private currentSession: any = { name: 'Current Session', messages: [] };
   private apiUrl = 'http://localhost:8000/api/chat'; // Replace with your actual API URL
 
   constructor(private http: HttpClient) {}
@@ -22,7 +22,7 @@ export class ChatService {
     );
   }
 
-  getChatSessions() {
+  /*getChatSessions() {
     return this.chatSessions;
   }
 
@@ -38,5 +38,5 @@ export class ChatService {
 
   addMessageToCurrentSession(message: string, user: boolean) {
     this.currentSession.messages.push({ text: message, user });
-  }
+  }*/
 }

@@ -30,10 +30,10 @@ export class HistoryService {
     return this.http.post<Session>(url, session);
   }
 
-  // Add a message to an existing chat session
-  addMessageToSession(sessionId: string, message: string): Observable<Session> {
+  addMessageToSession(sessionId: string, message: string, messageType: 'user' | 'bot'): Observable<Session> {
+    console.log('from service', sessionId, message, messageType)
     const url = `${this.apiUrl}/sessions/${sessionId}/messages`;
-    const body = { content: message };
+    const body = { content: message, type: messageType };
     return this.http.post<Session>(url, body);
   }
 
