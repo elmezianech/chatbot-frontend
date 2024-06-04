@@ -11,6 +11,7 @@
                             <div *ngIf="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched" class="text-danger">
                                 username is required
                             </div>
+                            
                         </div>
                         <div class="form-group">
                             <label for="signUpEmail">Email</label>
@@ -23,10 +24,15 @@
                             <label for="signUpPassword">Password</label>
                             <input type="password" class="form-control" id="signUpPassword" formControlName="password" placeholder="Password">
                             <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched" class="text-danger">
-                                Password is required
+                                <div *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required</div>
+                                <div *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long</div>
+                                <div *ngIf="signUpForm.get('password')?.errors?.['maxlength']">Password cannot be more than 20 characters long</div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block my-3" [disabled]="signUpForm.invalid">Sign Up</button>
+                        <div *ngIf="signUpError" class="alert alert-danger">
+                            {{ signUpError }}
+                        </div>
                     </form>
                 </div>
             </div>
@@ -45,10 +51,15 @@
                             <label for="loginPassword">Password</label>
                             <input type="password" class="form-control" id="loginPassword" formControlName="password" placeholder="Password">
                             <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
-                                Password is required
+                                <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
+                                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long</div>
+                                <div *ngIf="loginForm.get('password')?.errors?.['maxlength']">Password cannot be more than 20 characters long</div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block my-3" [disabled]="loginForm.invalid">Log In</button>
+                        <div *ngIf="loginError" class="alert alert-danger">
+                            {{ loginError }}
+                          </div>
                     </form>
                 </div>
             </div>

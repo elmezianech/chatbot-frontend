@@ -3,6 +3,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { ChatPageComponent } from './components/chat-page/chat-page.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { GuestGuardService } from './services/guest-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 export const routes: Routes = [
     {
@@ -11,11 +13,13 @@ export const routes: Routes = [
     },
     {
         path: "chat",
-        component: ChatPageComponent
+        component: ChatPageComponent,
+        canActivate: [AuthGuardService]
     },
     {
         path: "auth",
-        component: AuthComponent
+        component: AuthComponent,
+        canActivate: [GuestGuardService]
     },
     {
         path: "dashboard",

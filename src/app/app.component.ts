@@ -3,6 +3,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { CommonModule } from '@angular/common';  
+import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './components/auth/auth.component';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { CommonModule } from '@angular/common';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule]
+    imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule, HttpClientModule, AuthComponent]
 })
 export class AppComponent{
   title = 'chatbot-frontend';
