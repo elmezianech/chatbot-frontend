@@ -43,7 +43,12 @@ export class AuthComponent implements OnInit {
           console.log('Sign Up Successful:', response);
           // Handle successful signup logic here
           this.signUpError = '';
-          this.router.navigateByUrl('/chat');
+          //this.router.navigateByUrl('/chat');
+          //this.authService.storeToken(response.accessToken);
+
+          // Extract email and password from sign up form and login
+          const { email, password } = this.signUpForm.value;
+          this.onLogin({ email, password });
         },
         error => {
           console.error('Sign Up Failed:', error);
@@ -56,14 +61,14 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  onLogin(): void {
-    if (this.loginForm.valid) {
-      console.log('Login Form Data:', this.loginForm.value);
-      this.authService.signIn(this.loginForm.value).subscribe(
+  onLogin(credentials?: { email: string, password: string }): void {
+    if (credentials || this.loginForm.valid) {
+      const loginData = credentials || this.loginForm.value;
+      console.log('Login Form Data:', loginData);
+      this.authService.signIn(loginData).subscribe(
         response => {
           console.log('Login Successful:', response);
           // Handle successful login logic here
-          
           this.loginError = '';
           this.router.navigateByUrl('/chat');
           console.log('Access token: ', response.accessToken);
@@ -79,7 +84,7 @@ export class AuthComponent implements OnInit {
       this.markFormGroupTouched(this.loginForm);
     }
   }
-
+  
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);

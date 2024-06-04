@@ -84,4 +84,16 @@ export class ChatHistoryComponent implements OnInit {
 
     this.refreshChatSessions();
   }
+
+  deleteSession(sessionId: string): void {
+    this.historyService.deleteSession(sessionId).subscribe(
+      response => {
+        console.log('Session deleted:', response);
+        this.refreshChatSessions();
+      },
+      error => {
+        console.error('Error deleting session:', error);
+      }
+    );
+  }
 }

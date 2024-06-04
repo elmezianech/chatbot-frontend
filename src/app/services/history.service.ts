@@ -66,4 +66,10 @@ export class HistoryService {
   notifySessionListChange(): void {
     this.refreshSessionList();
   }
+
+  deleteSession(sessionId: string): Observable<any> {
+    const url = `${this.apiUrl}/sessions/${sessionId}/delete`;
+    return this.http.post<any>(url, {}); // Ensure an empty body is sent
+  }
+  
 }

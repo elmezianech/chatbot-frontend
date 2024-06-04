@@ -19,7 +19,8 @@ export class ChatWindowComponent implements OnInit {
   userInput: string = '';
   messages: any[] = [];
   activeSession: Session | null = null;
-  isNewChat: any = this.historyService.newChatSubject;
+  isNewChat: boolean = this.activeSession?._id === '';
+  isGeneratingResponse: boolean = false; // New variable to track response generation
 
   constructor(
     private chatService: ChatService,
@@ -65,7 +66,7 @@ export class ChatWindowComponent implements OnInit {
     if (this.userInput.trim()) {
       const userMessage = this.userInput;
       this.messages.push({ text: userMessage, user: true });
-  
+
       if (this.activeSession) {
         if (this.activeSession._id === '') {
           this.saveNewSession(userMessage);
@@ -106,16 +107,19 @@ export class ChatWindowComponent implements OnInit {
         updatedSession => {
           this.historyService.setSelectedSession(updatedSession);
           console.log(messageType === 'user' ? 'User message saved:' : 'Bot response saved:', updatedSession);
-  
+
           if (messageType === 'user') {
+            this.isGeneratingResponse = true; // Set to true when starting to generate response
             this.chatService.getResponse(messageContent).subscribe(
               response => {
                 this.messages.push({ text: response, user: false });
                 this.saveMessage(response, 'bot');
+                this.isGeneratingResponse = false; // Set to false when response is received
                 this.historyService.notifySessionListChange(); // Refresh the session list
               },
               error => {
                 this.messages.push({ text: 'Error: Unable to get response from the server.', user: false });
+                this.isGeneratingResponse = false; // Set to false if there's an error
               }
             );
           } else {
