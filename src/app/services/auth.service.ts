@@ -55,7 +55,6 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  
   // Remove JWT token from local storage
   removeToken(): void {
     localStorage.removeItem(this.tokenKey);
@@ -66,23 +65,15 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  /*public isAuthenticated(): boolean {
-    const token = localStorage.getItem(this.tokenKey);
-    // Check whether the token is expired and return
-    // true or false
-    return !this.jwtHelper.isTokenExpired(token);
-  }*/
-
   getUserIdFromToken(): string | null {
-    const token = localStorage.getItem('jwt_token'); // Assuming you store the token in local storage
+    const token = this.getToken();
     if (token) {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken?.id || null; // Assuming the user ID is stored in the 'id' field of the token
+      return decodedToken?.id || null; 
     }
     return null;
   }
 
-  // Decode the JWT token
   decodeToken(): any {
     const token = this.getToken();
     if (token) {
@@ -91,17 +82,17 @@ export class AuthService {
     return null;
   }
 
-  // Get user role from the token
   getUserRoleFromToken(): string[] | null {
     const decodedToken = this.decodeToken();
-    console.log(decodedToken);
-    return decodedToken ? decodedToken.roles : null; // Assuming roles is an array
+    return decodedToken ? decodedToken.roles : null;
   }
 
-  // Check if the user has a specific role
   hasRole(role: string): boolean {
     const roles = this.getUserRoleFromToken();
-    console.log(roles);
     return roles ? roles.includes(role) : false;
+  }
+
+  isAdmin(): boolean {
+    return this.hasRole('ROLE_ADMIN');
   }
 }

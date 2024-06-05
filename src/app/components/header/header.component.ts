@@ -28,8 +28,13 @@ export class HeaderComponent {
     return this.authService.isSignedIn();
   }
   
-  signOut(): void{
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  signOut(): void {
     this.authService.removeToken();
+    window.location.href = '/';
   }
 }
 
