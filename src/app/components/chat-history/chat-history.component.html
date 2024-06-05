@@ -14,8 +14,10 @@
       </li>
     </div>
     <li *ngFor="let session of chatSessions" (click)="loadSession(session)" class="session-item p-2 mb-2 border rounded">
-      <span>{{ session._id }}</span>
-      <button (click)="deleteSession(session._id); $event.stopPropagation();" class="btn btn-danger">Delete</button>
+      <div class="d-flex flex-row justify-content-between">
+        <span>{{ session._id }}</span>
+        <button (click)="deleteSession(session._id); $event.stopPropagation();" class=" btn btn-danger">Delete</button>
+      </div>
     </li>
   </ul>
 </div>

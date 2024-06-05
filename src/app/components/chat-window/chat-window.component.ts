@@ -70,6 +70,7 @@ export class ChatWindowComponent implements OnInit {
     if (this.userInput.trim()) {
       const userMessage = this.userInput;
       this.messages.push({ text: userMessage, user: true });
+      this.userInput = ''; // Clear the input field immediately
 
       if (this.activeSession) {
         if (this.activeSession._id === '') {
