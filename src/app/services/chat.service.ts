@@ -9,20 +9,18 @@ import { map } from 'rxjs/operators';
 export class ChatService {
   //private chatSessions: any[] = [];
   //private currentSession: any = { name: 'Current Session', messages: [] };
-  private apiUrl = 'http://localhost:8000/api/chat'; // Replace with your actual API URL
-
-  private apiUrl2 = 'http://localhost:8000';
+  private apiUrl = 'http://localhost:8000';
 
   private selectedModelType: string = 'RAG';
 
   constructor(private http: HttpClient) {}
 
   getResponse(userInput: string): Observable<string> {
-    const url = `${this.apiUrl2}/ask_rag`;
+    const endpoint = this.selectedModelType === 'RAG' ? '/ask_rag' : '/ask_finetuned';
+    const url = `${this.apiUrl}${endpoint}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log(userInput)
-    return this.http.post<{ response: string }>(url, { query: userInput }, { headers }).pipe(
-      map(response => response.response)
+    return this.http.post<{ answer: string }>(url, { query: userInput }, { headers }).pipe(
+      map(response => response.answer)
     );
   }
 

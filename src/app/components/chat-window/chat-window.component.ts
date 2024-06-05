@@ -20,7 +20,7 @@ export class ChatWindowComponent implements OnInit {
   messages: any[] = [];
   activeSession: Session | null = null;
   isNewChat: boolean = this.activeSession?._id === '';
-  isGeneratingResponse: boolean = false; // New variable to track response generation
+  isGeneratingResponse: boolean = false;
 
   constructor(
     private chatService: ChatService,
@@ -39,6 +39,10 @@ export class ChatWindowComponent implements OnInit {
         this.loadMessagesFromSession();
       }
     });
+  }
+
+  setModelType(modelType: string): void {
+    this.chatService.setSelectedModelType(modelType);
   }
 
   createNewChatSession(): void {
@@ -90,7 +94,7 @@ export class ChatWindowComponent implements OnInit {
           this.historyService.clearNewChat();
           this.activeSession._id = createdSession._id;
           this.saveMessage(userMessage, 'user');
-          this.historyService.notifySessionListChange(); // Refresh the session list
+          this.historyService.notifySessionListChange();
         },
         error => {
           console.error('Error creating chat session:', error);
@@ -109,17 +113,17 @@ export class ChatWindowComponent implements OnInit {
           console.log(messageType === 'user' ? 'User message saved:' : 'Bot response saved:', updatedSession);
 
           if (messageType === 'user') {
-            this.isGeneratingResponse = true; // Set to true when starting to generate response
+            this.isGeneratingResponse = true;
             this.chatService.getResponse(messageContent).subscribe(
               response => {
                 this.messages.push({ text: response, user: false });
                 this.saveMessage(response, 'bot');
-                this.isGeneratingResponse = false; // Set to false when response is received
-                this.historyService.notifySessionListChange(); // Refresh the session list
+                this.isGeneratingResponse = false;
+                this.historyService.notifySessionListChange();
               },
               error => {
                 this.messages.push({ text: 'Error: Unable to get response from the server.', user: false });
-                this.isGeneratingResponse = false; // Set to false if there's an error
+                this.isGeneratingResponse = false;
               }
             );
           } else {
