@@ -43,7 +43,8 @@ export class ChatHistoryComponent implements OnInit {
     });
 
     this.historyService.sessionList$.subscribe(sessions => {
-      this.chatSessions = sessions;
+      // Reverse the order of chatSessions array
+      this.chatSessions = sessions.reverse();
     });
   }
 
@@ -54,7 +55,8 @@ export class ChatHistoryComponent implements OnInit {
   loadChatSessions(userId: string): void {
     this.historyService.getUserSessions(userId).subscribe(
       sessions => {
-        this.chatSessions = sessions;
+        // Reverse the order of sessions array
+        this.chatSessions = sessions.reverse();
       },
       error => {
         console.error('Error loading chat sessions:', error);

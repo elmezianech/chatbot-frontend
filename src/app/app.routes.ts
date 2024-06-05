@@ -5,6 +5,8 @@ import { AuthComponent } from './components/auth/auth.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GuestGuardService } from './services/guest-guard.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { DashGuardService } from './services/dash-guard.service';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +25,11 @@ export const routes: Routes = [
     },
     {
         path: "dashboard",
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [DashGuardService]
+    },
+    {
+        path: "not-authorized",
+        component: NotAuthorizedComponent
     }
 ];

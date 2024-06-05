@@ -10,7 +10,8 @@ export class AuthService {
 
   private tokenKey = 'jwt_token';
 
-  private apiUrl = 'http://localhost:3000/api/auth'; // Replace with your actual API URL
+  private apiUrl = 'http://localhost:3000/api/auth'; 
+  private userUrl = 'http://localhost:3000/api/users';
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
@@ -32,6 +33,18 @@ export class AuthService {
     });
   }
 
+  getUsersWithSessions(): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(this.userUrl, { headers });
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<any>(`${this.userUrl}/${userId}`, { headers });
+  }
+
   // Store JWT token in local storage
   storeToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
@@ -42,6 +55,7 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
+  
   // Remove JWT token from local storage
   removeToken(): void {
     localStorage.removeItem(this.tokenKey);
@@ -66,5 +80,28 @@ export class AuthService {
       return decodedToken?.id || null; // Assuming the user ID is stored in the 'id' field of the token
     }
     return null;
+  }
+
+  // Decode the JWT token
+  decodeToken(): any {
+    const token = this.getToken();
+    if (token) {
+      return this.jwtHelper.decodeToken(token);
+    }
+    return null;
+  }
+
+  // Get user role from the token
+  getUserRoleFromToken(): string[] | null {
+    const decodedToken = this.decodeToken();
+    console.log(decodedToken);
+    return decodedToken ? decodedToken.roles : null; // Assuming roles is an array
+  }
+
+  // Check if the user has a specific role
+  hasRole(role: string): boolean {
+    const roles = this.getUserRoleFromToken();
+    console.log(roles);
+    return roles ? roles.includes(role) : false;
   }
 }
