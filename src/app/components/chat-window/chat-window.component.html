@@ -20,18 +20,18 @@
     <button class="btn btn-primary" (click)="sendMessage()">Send</button>
   </div>
   <div class="model-selection mt-3">
-    <h3 class="fs-5">Choose Model type</h3>
+    <h3 class="fs-5">Model type</h3>
     <div class="form-check">
       <input class="form-check-input" type="radio" name="modelType" id="ragModel" value="RAG" (change)="setModelType('RAG')" checked>
       <label class="form-check-label" for="ragModel">
         RAG
       </label>
     </div>
-    <div class="form-check">
+    <!-- <div class="form-check">
       <input class="form-check-input" type="radio" name="modelType" id="finetunedModel" value="Finetuned" (change)="setModelType('Finetuned')">
       <label class="form-check-label" for="finetunedModel">
         Finetuned
       </label>
-    </div>
+    </div> -->
   </div>
 </div>
